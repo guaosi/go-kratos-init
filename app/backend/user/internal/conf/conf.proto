@@ -1,0 +1,62 @@
+syntax = "proto3";
+package kratos.api;
+
+option go_package = "maniverse/app/backend/user/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+
+message Bootstrap {
+  App app =1;
+  Server server = 2;
+  Data data = 3;
+  Trace trace = 4;
+  Auth auth = 5;
+}
+message App{
+  string name = 1;
+  string version = 2;
+  bool debug = 3;
+  string log_path=4;
+}
+
+message Server {
+  message GRPC {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  GRPC grpc = 2;
+}
+
+message Data {
+  message Database {
+    string driver = 1;
+    string source = 2;
+  }
+  message Redis {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration read_timeout = 3;
+    google.protobuf.Duration write_timeout = 4;
+  }
+  Database database = 1;
+  Redis redis = 2;
+}
+
+message Registry {
+  message Consul {
+    string address = 1;
+    string path = 2;
+    string scheme = 3;
+  }
+  Consul consul = 1;
+}
+message Trace {
+  string endpoint = 1;
+}
+message Auth {
+  string api_key = 1;
+  int64 timeout = 2;
+  string tls_server_crt_path = 3;
+  string tls_server_key_path = 4;
+}

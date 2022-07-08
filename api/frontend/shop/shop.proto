@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package api.shop;
+
+option go_package = "maniverse/api/frontend/shop;shop";
+option java_multiple_files = true;
+option java_package = "api.shop";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "validate/validate.proto";
+service Shop {
+	rpc CreateShop (CreateShopRequest) returns (CreateShopReply);
+	rpc UpdateShop (UpdateShopRequest) returns (UpdateShopReply);
+	rpc DeleteShop (DeleteShopRequest) returns (DeleteShopReply);
+	rpc GetShop (GetShopRequest) returns (GetShopReply);
+	rpc ListShop (ListShopRequest) returns (ListShopReply);
+	rpc CreateUser (CreateUserRequest) returns (CreateUserReply) {
+		option (google.api.http) = {
+			post: "/create/user"
+			body: "*"
+		};
+		option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+			summary: "创建用户";
+			tags: "user";
+		};
+	}
+	rpc Login (LoginReq) returns (LoginReply) {
+		option (google.api.http) = {
+			post: "/login"
+			body: "*"
+		};
+	}
+}
+
+message CreateUserRequest {
+	string phone = 1 [(validate.rules).string.len = 11];;
+	string nickname =2 [(validate.rules).string = {min_len: 1, max_len: 10}];
+	string password =3 [(validate.rules).string = {min_len: 6, max_len: 14}];
+}
+
+message CreateUserReply {
+	int32 code = 1;
+	message Data {
+		uint64 id =1;
+	}
+	Data data = 2;
+}
+
+message LoginReq {
+	string phone = 1; // 用户手机号
+}
+
+message LoginReply {
+	int32 code = 1;
+	message Data {
+		string token = 1; // 登陆成功返回用户认证token
+	}
+	Data data = 2;
+}
+
+message CreateShopRequest {}
+message CreateShopReply {}
+
+message UpdateShopRequest {}
+message UpdateShopReply {}
+
+message DeleteShopRequest {}
+message DeleteShopReply {}
+
+message GetShopRequest {}
+message GetShopReply {}
+
+message ListShopRequest {}
+message ListShopReply {}

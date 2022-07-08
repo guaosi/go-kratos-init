@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package api.user;
+import "errors/errors.proto";
+
+option go_package = "maniverse/api/backend/user;user";
+option java_multiple_files = true;
+
+enum UserServiceErrorReason {
+    option (errors.default_code) = 500;
+
+    UNKNOWN_ERROR = 0;
+    USER_NOT_FOUND = 1 [(errors.code) = 404];
+    LOGIN_FAILED = 2 [(errors.code) = 400];
+    REGISTER_FAILED = 3 [(errors.code) = 400];
+}

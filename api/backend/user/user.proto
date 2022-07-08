@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package api.user;
+
+option go_package = "maniverse/api/backend/user;user";
+option java_multiple_files = true;
+option java_package = "api.user";
+
+service  User {
+	rpc CreateUser (CreateUserRequest) returns (CreateUserReply);
+	rpc UpdateUser (UpdateUserRequest) returns (UpdateUserReply);
+	rpc DeleteUser (DeleteUserRequest) returns (DeleteUserReply);
+	rpc GetUser (GetUserRequest) returns (GetUserReply);
+	rpc ListUser (ListUserRequest) returns (ListUserReply);
+	rpc GetUserByUsername(GetUserByUsernameReq) returns (GetUserByUsernameReply) {
+	}
+	rpc VerifyPassword(VerifyPasswordReq) returns (VerifyPasswordReply) {
+	}
+	rpc GetUserByPhone(GetUserByPhoneReq) returns (GetUserByPhoneReply) {
+	}
+}
+message GetUserByPhoneReq {
+	string phone = 1; // 用户手机号
+}
+message GetUserByPhoneReply {
+	int64 id = 1;
+	string phone = 2;
+}
+message GetUserByUsernameReq {
+	string username = 1;
+}
+message GetUserByUsernameReply {
+	int64 id = 1;
+	string username = 2;
+}
+message VerifyPasswordReq {
+	string username = 1;
+	string password = 2;
+}
+message VerifyPasswordReply {
+	bool ok = 1;
+	int64 id = 2;
+}
+message CreateUserRequest {
+	string phone = 1;
+	string nickname =2;
+	string password =3;
+}
+
+message CreateUserReply {
+	uint64 id =1;
+}
+
+message UpdateUserRequest {}
+message UpdateUserReply {}
+
+message DeleteUserRequest {}
+message DeleteUserReply {}
+
+message GetUserRequest {}
+message GetUserReply {}
+
+message ListUserRequest {}
+message ListUserReply {}
